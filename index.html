@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alessandro Portilho | Desenvolvedor de Software</title>
+    <link rel="icon" type="image/png" href="ap-favicon.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --primary: #00ffcc; /* Neon Cyan */
+            --primary-glow: rgba(0, 255, 204, 0.4);
+            --bg-dark: #0a0a0a; /* Deep black */
+            --bg-card: #111111;
+            --bg-card-hover: #1a1a1a;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 204, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 255, 204, 0.05), transparent 25%);
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        /* Header / Hero */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px 20px 20px;
+            position: relative;
+        }
+
+        .profile-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 35px var(--primary-glow);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px var(--primary);
+        }
+
+        header h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.2s;
+        }
+
+        /* Typing Effect */
+        .typing-container {
+            display: inline-block;
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.4s;
+        }
+        
+        .typing-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3s steps(30, end) 1s forwards, blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+
+        header p {
+            max-width: 600px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 2rem;
+            margin-bottom: 60px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '/> ';
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: var(--border-color);
+            margin-left: 20px;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Cards (Neon/Terminal Style) */
+        .card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 8px;
+            background: linear-gradient(45deg, transparent, var(--primary-glow), transparent);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .card.show, .animate-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px -10px var(--primary-glow);
+        }
+        
+        .card:hover::before {
+            opacity: 0.1;
+        }
+
+        .card h3 {
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .card .date {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Skills Tags */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill-tag {
+            background: #111;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            transform: translateY(-3px);
+        }
+
+        /* Aviation Gallery */
+        .aviation-gallery {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .aviation-img {
+            width: 250px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 8px;
+            filter: grayscale(80%) contrast(1.2);
+            transition: all 0.5s ease;
+            border: 1px solid #333;
+        }
+        
+        .aviation-img:hover {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            z-index: 10;
+        }
+        
+        .img-2 {
+            margin-top: 40px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid var(--primary);
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.8s;
+        }
+
+        .btn:hover {
+            background: rgba(0, 255, 204, 0.1);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
+        }
+
+        /* Animations Utils */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        @media (max-width: 768px) {
+            .profile-img { width: 200px; height: 200px; }
+            nav { padding: 15px; justify-content: center; }
+            nav div { display: none; }
+            header h1 { font-size: 3rem; }
+            .typing-text { font-size: 1.2rem; }
+            section { padding: 60px 20px; }
+            .aviation-gallery { flex-direction: column; align-items: center; }
+            .img-2 { margin-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div style="typing-text: 800; font-size: 1.2rem; letter-spacing: 1px; color: var(--primary);">AP.</div>
+        <div>
+            <a href="#sobre">Stack</a>
+            <a href="#experiencia">Trajetória</a>
+            <a href="#diferencial">Aviação</a>
+            <a href="#contato">Contato</a>
+        </div>
+    </nav>
+
+    <header id="inicio">
+        <img src="portilhoterno.jpg" alt="Alessandro Portilho" class="profile-img">
+        <h1>Alessandro Portilho</h1>
+        <div class="typing-container">
+            <div class="typing-text">> Desenvolvedor de Software_</div>
+        </div>
+        <p>Traduzindo pensamento computacional e estruturas de dados complexas em códigos limpos, seguros e funcionais.</p>
+        <a href="#contato" class="btn">Say Hello</a>
+    </header>
+
+    <section id="sobre">
+        <h2 class="section-title">01. Stack Tecnológico</h2>
+        <div class="skills-container">
+            <div class="skill-tag animate-on-scroll">Python & Data Science</div>
+            <div class="skill-tag animate-on-scroll">Java (POO)</div>
+            <div class="skill-tag animate-on-scroll">HTML5, CSS & JS</div>
+            <div class="skill-tag animate-on-scroll">PHP</div>
+            <div class="skill-tag animate-on-scroll">Mobile (Android)</div>
+            <div class="skill-tag animate-on-scroll">Cloud Computing & IoT</div>
+            <div class="skill-tag animate-on-scroll">Banco de Dados</div>
+            <div class="skill-tag animate-on-scroll">Segurança da Informação</div>
+        </div>
+    </section>
+
+    <section id="experiencia">
+        <h2 class="section-title">02. Trajetória</h2>
+        <div class="grid">
+            <div class="card animate-on-scroll">
+                <span class="date">2024 - Atual</span>
+                <h3>Desenvolvedor Freelancer</h3>
+                <p style="color: var(--text-muted);">Atuação no desenvolvimento de software e criação de scripts avançados. Foco na entrega de sistemas robustos, utilizando arquiteturas otimizadas e aplicando práticas consolidadas de Engenharia de Software.</p>
+            </div>
+            <div class="card animate-on-scroll">
+                <span class="date">2023 - 2028</span>
+                <h3>Ciências da Computação</h3>
+                <p style="color: var(--text-muted);">Graduação na Estácio de Sá, focada em métodos quantitativos, estruturas de dados avançadas, redes de computadores e a infraestrutura crítica dos Sistemas de Informação.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="diferencial">
+        <h2 class="section-title">03. O Diferencial</h2>
+        <div class="grid" style="align-items: center;">
+            <div class="card animate-on-scroll" style="background: transparent; border: none; padding: 2;">
+                <h3>Piloto Privado (ANAC 507275)</h3>
+                <p style="color: var(--primary); font-family: 'Fira Code', monospace; margin-bottom: 20px;">@ Aeroclube Juiz de Fora</p>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">
+                    A aviação exige o mais alto nível de atenção aos detalhes e prevenção de falhas. Minha formação aeronáutica forjou habilidades críticas para o desenvolvimento de software:
+                </p>
+                <ul style="color: var(--text-main); margin: 0 0 20px 20px; line-height: 1.8;">
+                    <li>Tomada de decisão rápida e sob pressão.</li>
+                    <li>Raciocínio lógico focado em processos.</li>
+                    <li>Rígido controle emocional em cenários críticos.</li>
+                </ul>
+                <p style="color: var(--text-main); font-style: italic; border-left: 2px solid var(--primary); padding-left: 15px;">
+                    "Trato cada linha de código com o mesmo nível de responsabilidade e segurança exigido em um voo."
+                </p>
+            </div>
+            
+            <div class="aviation-gallery animate-on-scroll">
+                <img src="image_7e0ec1.jpg" alt="Aeroporto ao pôr do sol" class="aviation-img img-1">
+                <img src="image_7e0e9c.jpg" alt="Visão do cockpit" class="aviation-img img-2">
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <h2 class="section-title">04. Contato</h2>
+        <div class="card animate-on-scroll" style="text-align: center; max-width: 600px; margin: 0 auto;">
+            <h3 style="font-size: 2rem; margin-bottom: 15px;">Pronto para decolar?</h3>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Estou disponível para novas oportunidades, projetos desafiadores e criação de soluções eficientes.</p>
+            <a href="mailto:aleportilhoti@gmail.com" class="btn" style="opacity: 1; animation: none; margin-top: 0;">aleportilhoti@gmail.com</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>Projetado e desenvolvido por Alessandro Portilho</p>
+    </footer>
+
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll, .card, .skill-tag').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
